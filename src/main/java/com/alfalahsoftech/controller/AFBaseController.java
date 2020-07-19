@@ -143,7 +143,7 @@ public abstract class AFBaseController extends AFObject {
 	}
 	
 	public String getUniqueIDWithPrefix(String prefix, Object obj,String format) {
-		return (Objects.isNull(prefix)?prefix:"") +  maskString(obj + "", '0', format);
+		return (Objects.nonNull(prefix)?prefix:"") +  maskString(obj + "", '0', format);
 	}
 	
 	

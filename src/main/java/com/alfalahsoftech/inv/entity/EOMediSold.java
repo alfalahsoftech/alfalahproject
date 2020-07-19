@@ -8,19 +8,20 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@SequenceGenerator(name="EOItemSold_SEQ", allocationSize=1,sequenceName="EOItemSold_SEQ")
-public class EOItemSold extends AFMainEntity {
+@SequenceGenerator(name="EOMediSold_SEQ", allocationSize=1,sequenceName="EOMediSold_SEQ")
+public class EOMediSold extends AFMainEntity {
 	private static final long serialVersionUID = 1L;
 
 //	@Column(insertable=false,updatable=false)
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="EOItemSold_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="EOMediSold_SEQ")
 	private Long primaryKey;
 	private Integer stateCode;
 	private String gstNo;
@@ -29,11 +30,11 @@ public class EOItemSold extends AFMainEntity {
 	private String address;
 	private String contactNo;
 	private String itemID;
-	private String name;
+	private String mediName;
 	private String type;
-	private Double weight;
 	private String baseUnit;
 	private Double unitCost;
+	@Temporal(TemporalType.DATE)
 	private Date orderDate = new Date();;
 	private Double gstPerc;
 	private Double costPrice;
@@ -42,11 +43,18 @@ public class EOItemSold extends AFMainEntity {
 	public Date soldOn = new Date();
 	public String notes;
 	private Integer quantity= new Integer(0);
-	private Double totalPrice= new Double(0.0);
 	private String payMode;
+	private String pack;
+	private Double subTotal;
+	@Temporal(TemporalType.DATE)
+	private Date expDate;
+	private String mfgBy;
+	private Double discount;
+	private String scheme;
 	
 	@ManyToOne
 	(fetch=FetchType.LAZY)
+	@JoinColumn(name="eoClientPK")
 	private EOClient eoClient;
 	
 	
@@ -81,7 +89,7 @@ public class EOItemSold extends AFMainEntity {
 	public void setGstNo(String gstNo) {
 		this.gstNo = gstNo;
 	}
-
+	
 	public String getClientID() {
 		return clientID;
 	}
@@ -123,13 +131,13 @@ public class EOItemSold extends AFMainEntity {
 	public Long primaryKey() {
 		return this.primaryKey;
 	}
-
-	public String getName() {
-		return this.name;
+	
+	public String getMediName() {
+		return mediName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMediName(String mediName) {
+		this.mediName = mediName;
 	}
 
 	public String getType() {
@@ -138,14 +146,6 @@ public class EOItemSold extends AFMainEntity {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public Double getWeight() {
-		return this.weight;
-	}
-
-	public void setWeight(Double weight) {
-		this.weight = weight;
 	}
 
 	public EOClient getEoClient() {
@@ -212,8 +212,6 @@ public class EOItemSold extends AFMainEntity {
 		this.salingPrice = salingPrice;
 	}
 
-	
-
 	public String getNotes() {
 		return notes;
 	}
@@ -230,13 +228,63 @@ public class EOItemSold extends AFMainEntity {
 		this.quantity = quantity;
 	}
 
-	public Double getTotalPrice() {
-		return totalPrice;
+	public Long getPrimaryKey() {
+		return primaryKey;
 	}
 
-	public void setTotalPrice(Double totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setPrimaryKey(Long primaryKey) {
+		this.primaryKey = primaryKey;
 	}
+
+	public String getPack() {
+		return pack;
+	}
+
+	public void setPack(String pack) {
+		this.pack = pack;
+	}
+
+	public Double getSubTotal() {
+		return subTotal;
+	}
+
+	public void setSubTotal(Double subTotal) {
+		this.subTotal = subTotal;
+	}
+
+	public Date getExpDate() {
+		return expDate;
+	}
+
+	public void setExpDate(Date expDate) {
+		this.expDate = expDate;
+	}
+
+	public String getMfgBy() {
+		return mfgBy;
+	}
+
+	public void setMfgBy(String mfgBy) {
+		this.mfgBy = mfgBy;
+	}
+
+	public Double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Double discount) {
+		this.discount = discount;
+	}
+
+	public String getScheme() {
+		return scheme;
+	}
+
+	public void setScheme(String scheme) {
+		this.scheme = scheme;
+	}
+
+	
 	
 	
 

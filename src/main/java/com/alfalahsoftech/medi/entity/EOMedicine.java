@@ -31,7 +31,7 @@ public class EOMedicine extends AFMainEntity {
 	private String UOM;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date addedOn = new Date();
-	private Boolean isActive;
+	private Boolean isActive;// = new Boolean(true);
 	private String notes;
 	
 	//
@@ -42,6 +42,8 @@ public class EOMedicine extends AFMainEntity {
     private String mfgBy;
     private Double netRatePerc;
     private String pack;
+    private Double purchPerc;
+    private String bonus;
     
 	@Override
 	public Long primaryKey() {
@@ -197,6 +199,23 @@ public class EOMedicine extends AFMainEntity {
 
 	public void setPack(String pack) {
 		this.pack = pack;
+	}
+
+
+	public Double getPurchPerc() {
+		return purchPerc;
+	}
+
+	public void setPurchPerc(Double purchPerc) {
+		this.purchPerc = purchPerc;
+	}
+
+	public String getBonus() {
+		return bonus;
+	}
+
+	public void setBonus(String bonus) {
+		this.bonus = bonus;
 	}
 	
 	

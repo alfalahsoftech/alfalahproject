@@ -101,6 +101,10 @@ public class PSEntityManager extends AFObject {
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
+	public Object find(Class<?> cls, long pk) {
+		return this.getEntityManager().find(cls, pk);
+		
+	}
 
 	@SuppressWarnings("unchecked")
 	public <T> T getUniqueResult(Class<T> t,String query) {

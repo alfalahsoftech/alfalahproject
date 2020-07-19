@@ -49,7 +49,7 @@ public abstract class AFObject implements FNBaseSerialInterface, FNObjectInterfa
 	// After deserialization this method will be called
 	public void initObject() {
 	}
-	public void print(String str) {
+	public void print(Object str) {
 		System.out.println(str);
 	}
 	public void printObj(Object obj) {

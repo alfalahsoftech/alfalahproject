@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import com.alfalahsoftech.alframe.AFConstant;
 import com.alfalahsoftech.web.AFApplicationObject;
 import com.alfalahsoftech.web.AFObject;
+import com.alfalahsoftech.web.AFWebContextListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -75,11 +76,11 @@ public class AFJsonParser extends AFObject{
 		public String millis = "0";//##Comment:Mantis:29719:CRNUM:NA If user is opening Archived Daily Timekeeping objects then its throwing an exception
 		public boolean isModified;
 		public Number isAcrossDay=0;//##Comment:Mantis:NA:CRNUM:CR_00290 Split Payroll in eTimekeeping
-		
+
 	}
-	
+
 	public static final  java.lang.reflect.Type type = new com.google.gson.reflect.TypeToken<List<PayRollAudDetail>>(){}.getType(); //##Comment:Mantis:35613:CRNUM:NA Handling on special characters in the User name
-	
+
 	public static List<Object> parse(File file){
 		try {
 			return stringToJson(jsonToSingleString(new FileReader(file)));
@@ -170,87 +171,66 @@ public class AFJsonParser extends AFObject{
 		}
 		return jsonObj;	
 	}
-	
+
 	public static ArrayList<String> getAllMedi(){
-
 		File file = new File(AFApplicationObject.META_PATH+"glbDir/medi.txt");
-		ArrayList<String> mediList = new ArrayList<>();
-		try {
-		FileReader fr = new FileReader(file);
-		BufferedReader bfr = new BufferedReader(fr);
-		String line  = bfr.readLine();
-		while (line != null) {
-//			System.out.println(line);
-			if(line.trim().equalsIgnoreCase("<tr>")) {
-				line  = bfr.readLine();
-				line  = bfr.readLine();
-				line = line.replace("<td>", "").replace("</td>","");
-				mediList.add(line.trim());
-				
-			}
-			line  = bfr.readLine();
-		}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		//System.out.println(mediList);
-		return mediList;
-	}
-
-	public static void main(String[] args) {
-		
-		System.out.println("ssssssssssssparsing----------------");
-		
-		File file = new File("./src/main/resources/META-INF/glbDir/medi.txt");
 		ArrayList<String> mediList = new ArrayList<>();
 		HashMap<String,String> medi_type = new HashMap<>();
 		try {
-		FileReader fr = new FileReader(file);
-		BufferedReader bfr = new BufferedReader(fr);
-		String line  = bfr.readLine();
-		 
-		while (line != null) {
-//			System.out.println(line);
-			if(line.trim().equalsIgnoreCase("<tr>")) {
-				
-				line  = bfr.readLine();  //1-skip
+			FileReader fr = new FileReader(file);
+			BufferedReader bfr = new BufferedReader(fr);
+			String line  = bfr.readLine();
+
+			while (line != null) {
+				//			System.out.println(line);
+				if(line.trim().equalsIgnoreCase("<tr>")) {
+
+					line  = bfr.readLine();  //1-skip
+					line  = bfr.readLine();
+					line = line.replace("<td>", "").replace("</td>","");
+					String name_type=line.trim();
+					mediList.add(line.trim());
+					line  = bfr.readLine();  //3-skip 
+					line  = bfr.readLine();  //4-skip
+					line  = bfr.readLine();  //5-skip
+					line  = bfr.readLine();  //6-skip
+					line  = bfr.readLine();  //7-skip
+					line  = bfr.readLine();  //8-skip
+					line  = bfr.readLine();  //9-skip
+					line = line.replace("<td>", "").replace("</td>","");
+
+					medi_type.put(name_type, (line!=null?line.trim():""));
+
+				}
 				line  = bfr.readLine();
-				line = line.replace("<td>", "").replace("</td>","");
-				String name_type=line.trim();
-				mediList.add(line.trim());
-				line  = bfr.readLine();  //3-skip 
-				line  = bfr.readLine();  //4-skip
-				line  = bfr.readLine();  //5-skip
-				line  = bfr.readLine();  //6-skip
-				line  = bfr.readLine();  //7-skip
-				line  = bfr.readLine();  //8-skip
-				line  = bfr.readLine();  //9-skip
-				line = line.replace("<td>", "").replace("</td>","");
-				
-				medi_type.put(name_type, (line!=null?line.trim():""));
-				
 			}
-			line  = bfr.readLine();
-		}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
 		System.out.println(medi_type.size());
 		System.out.println(medi_type);
-		
+
 		System.out.println(mediList.size());
 		System.out.println(mediList);
+
+		return mediList;
+	}
+
+	public static void main(String[] args) {
+
+		System.out.println("ssssssssssssparsing----------------");
 		
-		//		File file = new File(AFWebContextListener.contextPath+"src/main/resources/META-INF/glbDir/menu/menu.txt");
+		getAllMedi();
+		File file = new File(AFWebContextListener.contextPath+"src/main/resources/META-INF/glbDir/menu/menu.txt");
 		file = new File("./src/main/resources/META-INF/glbDir/menu/menu.txt");
 		//		File file = new File("X:/Other_Workspace/CentralMonitoring/src/main/resources/META-INF/setup/smsAdaptors.json");
 		try {
 
-		Object obj=	getGsonObject().fromJson(jsonToSingleString(new File("./src/main/resources/META-INF/glbDir/menu/tdyaudmainjson.json")),type);
-		//System.out.println(obj);
+			Object obj=	getGsonObject().fromJson(jsonToSingleString(new File("./src/main/resources/META-INF/glbDir/menu/tdyaudmainjson.json")),type);
+			//System.out.println(obj);
 
-		/*	String jsonString= jsonToSingleString(new FileReader(file));
+			/*	String jsonString= jsonToSingleString(new FileReader(file));
 			HashMap<String,Object> m = (HashMap<String,Object>)stringToJson(jsonString).get(0);
 			System.out.println(m);
 			System.out.println("Liiiiii-= ");*/
