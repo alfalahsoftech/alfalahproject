@@ -51,6 +51,7 @@ public class EOMediSold extends AFMainEntity {
 	private String mfgBy;
 	private Double discount;
 	private String scheme;
+	private String recpNo;
 	
 	@ManyToOne
 	(fetch=FetchType.LAZY)
@@ -282,6 +283,14 @@ public class EOMediSold extends AFMainEntity {
 
 	public void setScheme(String scheme) {
 		this.scheme = scheme;
+	}
+
+	public String getRecpNo() {
+		return recpNo;
+	}
+
+	public void setRecpNo(String recpNo) {
+		this.recpNo = recpNo;
 	}
 
 	

@@ -179,10 +179,11 @@ printObj(list.size());
 		print("=======> soldMedi\n"+req);
 		JSONArray jsonArr=	new JSONArray(req);
 		AtomicInteger aIntgQnt = new AtomicInteger(0);
-
+		String receiptNo= getReceiptNo();
 		jsonArr.forEach(itemDetails->{	
 			printObj(itemDetails);
 			EOMediSold itemSold = this.getObjFromStr(EOMediSold.class, itemDetails.toString());
+			itemSold.setRecpNo(receiptNo);
 			int v =itemSold.getQuantity();
 			v+=aIntgQnt.get();
 			aIntgQnt.set(v);
@@ -192,7 +193,21 @@ printObj(list.size());
 
 		return this.createResponse("Sold Items Saved!");
 	}
-
+	
+	@Path("/geRecpNo")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String geRecpNo() {
+		return this.getReceiptNo();
+	}
+	
+	private String getReceiptNo() {
+		EOMediSold obj = (EOMediSold)this.reqRespObject().reqEM().createQuery("SELECT e FROM EOMediSold e where primaryKey=(select max(primaryKey) from EOMediSold)").getResultList().get(0);
+		String maxID = obj.getRecpNo();
+		print("max ReceiptNo => "+maxID);
+		int newID =Integer.valueOf((maxID == null ? "0":maxID))+1;
+		return this.getUniqueID(newID , "******");
+	}
 
 	@Path("/lastSoldMedi/{clientid}")
 	@GET
