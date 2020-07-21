@@ -138,6 +138,7 @@ printObj(list.size());
 	public void createMultiObject(EOMedicine medi) {
 
 		ArrayList<String> list = AFJsonParser.getAllMedi();
+		this.reqRespObject().startTransaction();
 		for (int i = 0; i < list.size(); i++) {
 			EOMedicine  obj = new EOMedicine();
 			String id = this.getUniqueID((i+1), "******");
@@ -156,11 +157,10 @@ printObj(list.size());
 			obj.setNetRatePerc(medi.getNetRatePerc());
 			obj.setPack(medi.getPack());
 			//Transaxtion
-			this.reqRespObject().startTransaction();
+			
 			this.reqRespObject().reqEM().persist(obj);
-			this.reqRespObject().endTransaction();
-
 		}
+		this.reqRespObject().endTransaction();
 
 
 	}
@@ -183,7 +183,7 @@ printObj(list.size());
 		jsonArr.forEach(itemDetails->{	
 			printObj(itemDetails);
 			EOMediSold itemSold = this.getObjFromStr(EOMediSold.class, itemDetails.toString());
-			itemSold.setRecpNo(receiptNo);
+			itemSold.setRcptNo(receiptNo);
 			int v =itemSold.getQuantity();
 			v+=aIntgQnt.get();
 			aIntgQnt.set(v);
@@ -194,18 +194,21 @@ printObj(list.size());
 		return this.createResponse("Sold Items Saved!");
 	}
 	
-	@Path("/geRecpNo")
+	@Path("/getRecptNo")
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public String geRecpNo() {
-		return this.getReceiptNo();
+		return this.getReceiptNo();//this.createResponse("{rcptNo:"+this.getReceiptNo()+"}");
 	}
 	
+
 	private String getReceiptNo() {
 		EOMediSold obj = (EOMediSold)this.reqRespObject().reqEM().createQuery("SELECT e FROM EOMediSold e where primaryKey=(select max(primaryKey) from EOMediSold)").getResultList().get(0);
-		String maxID = obj.getRecpNo();
+		String maxID = obj.getRcptNo();
 		print("max ReceiptNo => "+maxID);
 		int newID =Integer.valueOf((maxID == null ? "0":maxID))+1;
+		print("new Repct no : " +newID);
 		return this.getUniqueID(newID , "******");
 	}
 
@@ -246,6 +249,15 @@ printObj(list.size());
 	public Response dispSoldMedi() {
 		System.out.println("dispSoldMedi==");
 		List<EOMediSold> soldItemList = this.getObjects(EOMediSold.class);
+		this.reqRespObject().startTransaction();
+		
+		/*AtomicInteger newID = new AtomicInteger(1);
+		soldItemList.forEach(medi->{
+			medi.setRcptNo(this.getUniqueID(newID.getAndIncrement() , "******"));
+			this.reqRespObject().reqEM().merge(medi);
+		});
+		this.reqRespObject().endTransaction();*/
+		
 		System.out.println("soldItemList== "+soldItemList.size());
 		return this.createResponse(soldItemList);
 	}
