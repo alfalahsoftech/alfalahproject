@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +26,12 @@ import com.google.gson.JsonSyntaxException;
 
 public class AFJsonParser extends AFObject{
 	private static final long serialVersionUID = 1L;
+	static Logger log = Logger.getLogger(AFJsonParser.class);
+
+	public static void log(String str) {
+		log.debug("This is a debug message");
+		log.info("This is an info message");
+	}
 
 	public static <T>  T parseFile(File file,Class<T> cls){
 		//		JsonParser json = new JsonParser();
@@ -218,10 +225,10 @@ public class AFJsonParser extends AFObject{
 	}
 
 	public static void main(String[] args) {
-
+log("");
 		System.out.println("ssssssssssssparsing----------------");
 		
-		getAllMedi();
+		//getAllMedi();
 		File file = new File(AFWebContextListener.contextPath+"src/main/resources/META-INF/glbDir/menu/menu.txt");
 		file = new File("./src/main/resources/META-INF/glbDir/menu/menu.txt");
 		//		File file = new File("X:/Other_Workspace/CentralMonitoring/src/main/resources/META-INF/setup/smsAdaptors.json");
