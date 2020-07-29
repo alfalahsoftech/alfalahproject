@@ -178,7 +178,42 @@ public class AFJsonParser extends AFObject{
 		}
 		return jsonObj;	
 	}
+	public static ArrayList<String> medindia(){
+		///home/malam/workspace/alfalahsoftech/src/main/resources/META-INF/glbDir/medindia.net.txt
+		File file = new File("./src/main/resources/META-INF/glbDir/medindia.net.txt");
+//		File file = new File(AFApplicationObject.META_PATH+"glbDir/medindia.net.txt.txt");   //for runtime
+		ArrayList<String> mediList = new ArrayList<>();
+		HashMap<String,String> medi_type = new HashMap<>();
+		try {
+			FileReader fr = new FileReader(file);
+			BufferedReader bfr = new BufferedReader(fr);
+			String line  = bfr.readLine();
 
+			while (line != null) {
+				//			System.out.println(line);
+				if(line.trim().equalsIgnoreCase("<tr>")) {
+
+					line  = bfr.readLine();  //1-skip
+					line  = bfr.readLine();
+					line  = bfr.readLine();
+					line = line.substring(line.indexOf("&nbsp;")).replace("</td>","").replace("</a>", "").replace("&nbsp;", "");
+					String name_type=line.trim();
+					mediList.add(line.trim());
+				}
+				line  = bfr.readLine();
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		System.out.println(medi_type.size());
+		System.out.println(medi_type);
+
+		System.out.println(mediList.size());
+		System.out.println(mediList);
+
+		return mediList;
+	}
 	public static ArrayList<String> getAllMedi(){
 		File file = new File(AFApplicationObject.META_PATH+"glbDir/medi.txt");
 		ArrayList<String> mediList = new ArrayList<>();
@@ -223,9 +258,12 @@ public class AFJsonParser extends AFObject{
 
 		return mediList;
 	}
+	
+	
 
 	public static void main(String[] args) {
-log("");
+log("main method");
+medindia();
 		System.out.println("ssssssssssssparsing----------------");
 		
 		//getAllMedi();
