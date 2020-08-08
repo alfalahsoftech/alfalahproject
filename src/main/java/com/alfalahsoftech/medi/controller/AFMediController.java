@@ -48,10 +48,11 @@ public class AFMediController extends AFBaseController {
 		int newID =Integer.valueOf(maxID)+1;
 		
 		EOMedicine medi =this.getObjFromStr(EOMedicine.class	, reqStr);
+		
 		medi.setItemID(this.getUniqueIDWithPrefix("MEDI_", newID , "******"));
 		this.saveObject(medi);
 		this.commit();
-		return "{msg:Successfully added!}";
+		return   this.gson().toJson("{msg:"+medi.getMediName()+" successfully added!}");
 	}
 
 	@POST
@@ -132,7 +133,7 @@ printObj(list.size());
 		
 		//	}
 		response = this.createResponse(obj);
-		return response;
+		return response;// this.gson().toJson("{msg:"+medi.getMediName()+" successfully updated!}");
 	}
 
 	public void createMultiObject(EOMedicine medi) {
