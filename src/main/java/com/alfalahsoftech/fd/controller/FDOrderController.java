@@ -264,6 +264,7 @@ public class FDOrderController extends FoodBaseController {
 
 	@Path("/dispDailyStuff")
 	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response dailyStuff() {
 		List<EOStuff> stuffList = (List<EOStuff>) userSrvc.genericData(EOStuff.class);

@@ -48,8 +48,8 @@ public class FDSettingsController extends FoodBaseController {
 
 	@POST
 	@Path("/dispStore")
+	@Consumes({ MediaType.APPLICATION_JSON})
 	@Produces(value= {MediaType.APPLICATION_JSON})
-	
 	public Response storeDetails() {
 		print("sotre detail called");
 		List storeList = this.getAllData(EOStore.class);

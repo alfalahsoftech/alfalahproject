@@ -1,0 +1,31 @@
+{
+		  "siteID": 5001,
+		  "partnerID": "NEKTOR",
+		  "eventID": "HISTSALES",
+		  "data": [
+			{
+			  "busiDate": "20200112",
+			  "confNumb1": 100,
+			  "confNumb2": 100,
+			  "confNumb3": 100,
+			  "confNumb4": 100,
+			  "confNumb5": 100,
+			  "confNumb6": 100,
+			  "confNumb7": 100,
+			  "confNumb8": 100,
+			  "confNumb9": 100
+			},
+			{
+			  "busiDate": "20200113",
+			  "confNumb1": 100,
+			  "confNumb2": 100,
+			  "confNumb3": 100,
+			  "confNumb4": 100,
+			  "confNumb5": 100,
+			  "confNumb6": 100,
+			  "confNumb7": 100,
+			  "confNumb8": 100,
+			  "confNumb9": 100
+			}
+		  ]
+		}

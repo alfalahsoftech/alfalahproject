@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import com.alfalahsoftech.inv.entity.AFMainEntity;
 
 @Entity
-@SequenceGenerator(name="EOMedicine_SEQ", sequenceName="EOMedicine_SEQ")
+@SequenceGenerator(name="EOMedicine_SEQ", sequenceName="EOMedicine_SEQ", allocationSize=1)
 public class EOMedicine extends AFMainEntity {
 
 	@Id

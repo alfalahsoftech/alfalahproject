@@ -6,7 +6,10 @@ import javax.persistence.FlushModeType;
 import javax.persistence.Query;
 import javax.persistence.metamodel.Metamodel;
 
-import org.hibernate.jpa.internal.EntityManagerImpl;
+import org.hibernate.internal.SessionImpl;
+import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
+
+//import org.hibernate.jpa.internal.EntityManagerImpl;
 
 import com.alfalahsoftech.alframe.AFArrayList;
 import com.alfalahsoftech.inv.entity.AFMainEntity;
@@ -18,7 +21,7 @@ public class PSEntityManager extends AFObject {
 	private final transient EntityManager entityManager;
 	/*private IdentityMapAccessor internalAccessor;
 		private UnitOfWorkImpl unitOfWork;*/
-	private transient EntityManagerImpl manager;
+	private transient SessionImpl manager;
 	private final transient Metamodel metamodel;
 	private final PSSchema schema;
 
@@ -31,9 +34,9 @@ public class PSEntityManager extends AFObject {
 	}
 
 	private void init() {
-		this.manager = (EntityManagerImpl) this.entityManager;
-		System.out.println("Mappppppppp " + manager.getProperties());
-		this.manager.setFlushMode(FlushModeType.COMMIT);
+		this.manager = (SessionImpl) this.entityManager;
+//		System.out.println("Mappppppppp " + manager.getProperties());
+//		this.manager.setFlushMode(FlushModeType.COMMIT);
 		//this.internalAccessor = (IdentityMapAccessor) (this.manager).getActiveSession().getIdentityMapAccessor();
 		//this.unitOfWork = (UnitOfWorkImpl) this.manager.getUnitOfWork();
 	}

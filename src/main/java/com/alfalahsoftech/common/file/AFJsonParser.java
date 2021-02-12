@@ -5,24 +5,30 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.alfalahsoftech.alframe.AFConstant;
 import com.alfalahsoftech.web.AFApplicationObject;
 import com.alfalahsoftech.web.AFObject;
 import com.alfalahsoftech.web.AFWebContextListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 public class AFJsonParser extends AFObject{
 	private static final long serialVersionUID = 1L;
@@ -181,7 +187,7 @@ public class AFJsonParser extends AFObject{
 	public static ArrayList<String> medindia(){
 		///home/malam/workspace/alfalahsoftech/src/main/resources/META-INF/glbDir/medindia.net.txt
 		File file = new File("./src/main/resources/META-INF/glbDir/medindia.net.txt");
-//		File file = new File(AFApplicationObject.META_PATH+"glbDir/medindia.net.txt.txt");   //for runtime
+		//		File file = new File(AFApplicationObject.META_PATH+"glbDir/medindia.net.txt.txt");   //for runtime
 		ArrayList<String> mediList = new ArrayList<>();
 		HashMap<String,String> medi_type = new HashMap<>();
 		try {
@@ -258,22 +264,82 @@ public class AFJsonParser extends AFObject{
 
 		return mediList;
 	}
-	
-	
+
+
+	class RestCshMain{
+		public String siteID;
+		public String partnerID;
+		public String eventID;
+		public List<ERSRestCshMain> data;
+		@Override
+		public String toString() {
+			return "RestCshMain [siteID=" + siteID + ", partnerID=" + partnerID + ", eventID=" + eventID + ", data="
+					+ data + "]";
+		}
+		
+	}
+	class ERSRestCshMain {
+		private String busiDate;
+		private Double confNumb1;
+		private Double confNumb2;
+		private Double confNumb3;
+		private Double confNumb4;
+		private Double confNumb5;
+		private Double confNumb6;
+		private Double confNumb7;
+		private Double confNumb8;
+		private Double confNumb9;
+		private Double confNumb10;
+		private Double confNumb11;
+		private Double confNumb12;
+		private Double confNumb13;
+		private Double confNumb14;
+		private Double confNumb15;
+		private Double confNumb16;
+		@Override
+		public String toString() {
+			return "ERSRestCshMain [busiDate=" + busiDate + ", confNumb1=" + confNumb1 + ", confNumb2=" + confNumb2
+					+ ", confNumb3=" + confNumb3 + ", confNumb4=" + confNumb4 + ", confNumb5=" + confNumb5
+					+ ", confNumb6=" + confNumb6 + ", confNumb7=" + confNumb7 + ", confNumb8=" + confNumb8
+					+ ", confNumb9=" + confNumb9 + ", confNumb10=" + confNumb10 + ", confNumb11=" + confNumb11
+					+ ", confNumb12=" + confNumb12 + ", confNumb13=" + confNumb13 + ", confNumb14=" + confNumb14
+					+ ", confNumb15=" + confNumb15 + ", confNumb16=" + confNumb16 + "]";
+		}
+		
+	}
 
 	public static void main(String[] args) {
-log("main method");
-medindia();
-		System.out.println("ssssssssssssparsing----------------");
+		log("main method");
 		
+		System.out.println("main Method called ----------------");
+	System.out.println("palin date: "+plainDateStr("20200414"));
+		medindia();
 		//getAllMedi();
 		File file = new File(AFWebContextListener.contextPath+"src/main/resources/META-INF/glbDir/menu/menu.txt");
 		file = new File("./src/main/resources/META-INF/glbDir/menu/menu.txt");
 		//		File file = new File("X:/Other_Workspace/CentralMonitoring/src/main/resources/META-INF/setup/smsAdaptors.json");
 		try {
+			System.out.println("Go for json");
+			//			Object obj=	getGsonObject().fromJson(jsonToSingleString(new File("./src/main/resources/META-INF/glbDir/menu/tdyaudmainjson.json")),type);
+			Type typ =new com.google.gson.reflect.TypeToken<Map<String,String>>(){}.getType();
+			String jsonStr = jsonToSingleString(new File("./src/main/resources/META-INF/glbDir/menu/restcshmain.json"));
+			JSONObject jb = new JSONObject(jsonStr);
+			JSONArray jArray = jb.getJSONArray("data");
+			jArray.forEach(jsonObj->{
+				JSONObject json = (JSONObject)jsonObj;
+				Iterator<String> keyItr=json.keys();
+				while(keyItr.hasNext()) {
+				 String key = keyItr.next();
+				 Object value = json.get(key);
+				 System.out.println("Key: " + key + " Value: " + value);
+				}
+			});
+			
+			RestCshMain obj=	getGsonObject().fromJson(jsonStr,RestCshMain.class);
 
-			Object obj=	getGsonObject().fromJson(jsonToSingleString(new File("./src/main/resources/META-INF/glbDir/menu/tdyaudmainjson.json")),type);
-			//System.out.println(obj);
+			obj.data.forEach(e->{
+				System.out.println(getGsonObject().toJson(e));
+			});
 
 			/*	String jsonString= jsonToSingleString(new FileReader(file));
 			HashMap<String,Object> m = (HashMap<String,Object>)stringToJson(jsonString).get(0);
@@ -284,6 +350,23 @@ medindia();
 			e.printStackTrace();
 		}
 
+	}
+	
+	public static Date plainDateStr(String dateStr) {
+		String datePattern = "\\d{4}_\\d{1,2}_\\d{1,2}";
+		if(dateStr.matches(datePattern)) {
+			System.out.println("matched-------------");
+		}
+		SimpleDateFormat format = new SimpleDateFormat("%Y%m%d");
+		Date d=null;
+		try {
+			d = format.parse(dateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return d;
+		
 	}
 	public static Gson getGsonObject(){
 		GsonBuilder builder = new GsonBuilder();

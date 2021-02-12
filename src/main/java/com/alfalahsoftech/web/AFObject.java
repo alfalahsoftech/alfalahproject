@@ -35,7 +35,7 @@ import com.google.gson.JsonObject;
 
 public abstract class AFObject implements FNBaseSerialInterface, FNObjectInterface, Serializable {
 
-	
+
 	public static final String CONTEXTPATH= AFWebContextListener.contextPath;
 	/**
 	 * 
@@ -48,6 +48,9 @@ public abstract class AFObject implements FNBaseSerialInterface, FNObjectInterfa
 	public static final String PK= "primaryKey";
 	// After deserialization this method will be called
 	public void initObject() {
+	}
+	public void afDebug(Object obj) {
+		printObj(obj);
 	}
 	public void print(Object str) {
 		System.out.println(str);
@@ -246,7 +249,7 @@ public abstract class AFObject implements FNBaseSerialInterface, FNObjectInterfa
 
 	@Override
 	public void handleTakeValueForUnboundKey(Object _value, String _key) {
-		
+
 		throw new RuntimeException("handleTakeValueForUnboundKey~NoSuchKey:" + _key+ "_key~className"+ this.getClass().getName()+"  _value:  "+_value);//FNUnboundKeyException(logger, FNLogLevel.TRACE, this.getReqRespObject(), "FNObject~handleTakeValueForUnboundKey~NoSuchKey:" + this.getClass().getName() + ":" + _key, this, "_key~className", null, _key, this.getClass().getName());
 	}
 
@@ -339,7 +342,7 @@ public abstract class AFObject implements FNBaseSerialInterface, FNObjectInterfa
 			list = this.reqRespObject().reqEM().createQuery("Select e From "+cls.getSimpleName()+" e where "+whereClause).getResultList();
 		return list;
 	}
-	
+
 
 	public <T> AFArrayList<T> afArrayList(Collection<T> list) {
 		AFArrayList<T> listObj = new AFArrayList<>();
@@ -394,7 +397,7 @@ public abstract class AFObject implements FNBaseSerialInterface, FNObjectInterfa
 	public String getGsonString(Object obj) {
 		return this.gson().toJson(obj);
 	}
-	
+
 	public JSONObject jsonObject(String obj) {
 		JSONObject jsonObj=new JSONObject(obj);
 		return jsonObj;

@@ -72,7 +72,7 @@ public class UserController extends AFBaseController {
 	@GET
 	@Path("/cli")
 	@Consumes({ MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON})
 	public Response getClientDetails() {
 		//		java.util.List<LKClient> clientList=userSrvc.getClientDetails();
 		java.util.List<EOClient> clientList	=userSrvc.getClientDetails();
@@ -88,7 +88,7 @@ public class UserController extends AFBaseController {
 	@POST
 	@Path("/cli")
 	@Consumes({ MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON})
 	public Response putClientDetails( String req) {
 		print("REeeeeeeeee= " +req);
 		Map<String, Object>	 map=new JSONObject(req).toMap();
@@ -154,7 +154,8 @@ public class UserController extends AFBaseController {
 
 	@POST
 	@Path("/allUsers")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsers() {
 		System.out.println("11111111111 getUsers ");
 		List<EOUser> userList = userSrvc.findAllUsers();
@@ -164,7 +165,7 @@ public class UserController extends AFBaseController {
 
 	@GET
 	@Path("/msg")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON})
 	public Response getMessage() {
 		System.out.println("11111111111 getUsers ");
 		return this.createResponse("{msg:Hi this new message}");
@@ -172,7 +173,8 @@ public class UserController extends AFBaseController {
 
 	@GET
 	@Path("/user/{id}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({ MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON})
 	public Response getUserById(@PathParam("id") String id) {
 		System.out.println("22222222222222");
 		EOUser user = userSrvc.findUserById(Integer.valueOf(id));
@@ -182,7 +184,7 @@ public class UserController extends AFBaseController {
 
 	@POST
 	@Path("/addUser")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON})
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response addUser(String user) {
 		System.out.println("333333333333333" + user);
@@ -197,7 +199,7 @@ public class UserController extends AFBaseController {
 
 	@POST
 	@Path("/updUser")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON})
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response updateUser(String userJson) {
 		System.out.println("444444444444" + userJson);

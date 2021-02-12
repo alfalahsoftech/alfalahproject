@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import com.alfalahsoftech.alframe.AFHashMap;
@@ -56,6 +57,7 @@ public class AlamApplication extends Application {
 		System.out.println(" =======> AlamApplication  is going to load... ");
 		
 		Set<Class<?>> classes = new HashSet<>();
+		try {
 		//Controller Start
 		classes.add(UserController.class);
 		classes.add(ParamController.class);
@@ -64,6 +66,8 @@ public class AlamApplication extends Application {
 		classes.add(FDSettingsController.class);
 		classes.add(FDOrderController.class);
 		classes.add(AFMediController.class);
+		classes.add(FileProcessController.class);
+		classes.add(MultiPartFeature.class);
 		//Controller End
 	
 		//Filter Start
@@ -74,6 +78,10 @@ public class AlamApplication extends Application {
 		classes.add(FileService.class);
 		classes.add(PdfService.class);
 		classes.add(DashBoard.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
 		return classes;
 	}
 	@Override
