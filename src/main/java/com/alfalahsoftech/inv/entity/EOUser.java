@@ -24,7 +24,7 @@ public class EOUser extends AFMainEntity{
 	protected String emailID;
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date lastPassChgDate = new Date() ;
-	private Integer contactNo;
+	private Long contactNo;
 	
 	@Override
 	public Long primaryKey() {
@@ -88,11 +88,11 @@ public class EOUser extends AFMainEntity{
 		this.lastPassChgDate = lastPassChgDate;
 	}
 
-	public Integer getContactNo() {
+	public Long getContactNo() {
 		return contactNo;
 	}
 
-	public void setContactNo(Integer contactNo) {
+	public void setContactNo(Long contactNo) {
 		this.contactNo = contactNo;
 	}
 	@Override
